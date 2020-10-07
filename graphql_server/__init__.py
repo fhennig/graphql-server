@@ -55,7 +55,7 @@ ServerResponse = namedtuple("ServerResponse", "body status_code")
 # The public helper functions
 
 
-def run_http_query(
+async def run_http_query(
     schema: GraphQLSchema,
     request_method: str,
     data: Union[Dict, List[Dict]],
@@ -119,7 +119,7 @@ def run_http_query(
     ]
 
     results: List[Optional[AwaitableOrValue[ExecutionResult]]] = [
-        get_response(
+        await get_response(
             schema, params, catch_exc, allow_only_query, run_sync, **execute_options
         )
         for params in all_params

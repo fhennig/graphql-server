@@ -1,4 +1,5 @@
 import copy
+import asyncio
 from collections.abc import MutableMapping
 from functools import partial
 from typing import List
@@ -84,7 +85,7 @@ class GraphQLView(View):
             pretty = self.pretty or show_graphiql or request.args.get("pretty")
 
             all_params: List[GraphQLParams]
-            execution_results, all_params = run_http_query(
+            execution_results, all_params = asyncio.get_event_loop().run_until_complete(run_http_query(
                 self.schema,
                 request_method,
                 data,
@@ -95,7 +96,7 @@ class GraphQLView(View):
                 root_value=self.get_root_value(),
                 context_value=self.get_context(),
                 middleware=self.get_middleware(),
-            )
+            ))
             result, status_code = encode_execution_results(
                 execution_results,
                 is_batch=isinstance(data, list),
