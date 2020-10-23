@@ -98,6 +98,7 @@ class GraphQLView(View):
                 root_value=self.get_root_value(),
                 context_value=self.get_context(),
                 middleware=self.get_middleware(),
+                run_sync=False,
             ))
             result, status_code = encode_execution_results(
                 execution_results,
