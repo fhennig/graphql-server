@@ -3,7 +3,8 @@ from setuptools import setup, find_packages
 
 install_requires = [
     "graphql-core>=3.1.0,<4",
-    "typing-extensions>=3.7.4,<4"
+    "typing-extensions>=3.7.4,<4",
+    "nest_asyncio>=1.4.1",
 ]
 
 tests_requires = [
@@ -24,7 +25,6 @@ dev_requires = [
 
 install_flask_requires = [
     "flask>=0.7.0",
-    "nest_asyncio>=1.4.1",
 ]
 
 install_sanic_requires = [
