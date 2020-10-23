@@ -24,6 +24,7 @@ dev_requires = [
 
 install_flask_requires = [
     "flask>=0.7.0",
+    "nest_asyncio>=1.4.1",
 ]
 
 install_sanic_requires = [

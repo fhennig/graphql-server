@@ -1,5 +1,7 @@
 import copy
 import asyncio
+import nest_asyncio
+nest_asyncio.apply()
 from collections.abc import MutableMapping
 from functools import partial
 from typing import List
