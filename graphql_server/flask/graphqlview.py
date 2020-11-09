@@ -87,7 +87,8 @@ class GraphQLView(View):
             pretty = self.pretty or show_graphiql or request.args.get("pretty")
 
             all_params: List[GraphQLParams]
-            execution_results, all_params = asyncio.get_event_loop().run_until_complete(run_http_query(
+            loop = asyncio.new_event_loop()
+            execution_results, all_params = loop.run_until_complete(run_http_query(
                 self.schema,
                 request_method,
                 data,
