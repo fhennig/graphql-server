@@ -119,7 +119,7 @@ async def run_http_query(
         get_graphql_params(entry, extra_data) for entry in data
     ]
 
-    def x(params):
+    async def x(params):
         # quick helper function that awaits awaitable things, and otherwise doesn't
         res = get_response(schema, params, catch_exc, allow_only_query, run_sync, **execute_options)
         if inspect.isawaitable(res):
@@ -127,7 +127,7 @@ async def run_http_query(
         return res
 
     results: List[Optional[AwaitableOrValue[ExecutionResult]]] = [
-        x(params)
+        await x(params)
         for params in all_params
     ]
     return GraphQLResponse(results, all_params)
