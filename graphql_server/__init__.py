@@ -7,6 +7,7 @@ for building GraphQL servers or integrations into existing web frameworks using
 [GraphQL-Core](https://github.com/graphql-python/graphql-core).
 """
 import json
+import inspect
 from collections import namedtuple
 from collections.abc import MutableMapping
 from typing import Any, Callable, Collection, Dict, List, Optional, Type, Union
@@ -118,10 +119,15 @@ async def run_http_query(
         get_graphql_params(entry, extra_data) for entry in data
     ]
 
+    def x(params):
+        # quick helper function that awaits awaitable things, and otherwise doesn't
+        res = get_response(schema, params, catch_exc, allow_only_query, run_sync, **execute_options)
+        if inspect.isawaitable(res):
+            res = await res
+        return res
+
     results: List[Optional[AwaitableOrValue[ExecutionResult]]] = [
-        await get_response(
-            schema, params, catch_exc, allow_only_query, run_sync, **execute_options
-        )
+        x(params)
         for params in all_params
     ]
     return GraphQLResponse(results, all_params)
